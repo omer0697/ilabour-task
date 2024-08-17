@@ -1,0 +1,29 @@
+.resizer {
+    display: inline-block;
+    width: 5px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateX(50%);
+    z-index: 1;
+    touch-action: none;
+    background-color: transparent;
+  }
+  
+  .resizer:hover {
+    background-color: #aaa;
+    cursor: col-resize;
+  }
+  
+  th, td {
+    position: relative;
+    box-sizing: border-box;
+  }
+  
+  table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
