@@ -1,70 +1,108 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ILA Frontend Case Study
 
-## Available Scripts
+This repository contains the solution for the ILA Frontend Developer (React) Case Study. The project is a full-stack application that integrates authentication, state management, and CRUD operations with a product management dashboard. The application has been developed using React.js, and it includes a login system, a registration form, and a product management dashboard.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Setup and Installation](#setup-and-installation)
+- [Deployment](#deployment)
+- [Folder Structure](#folder-structure)
+- [Notes](#notes)
+- [Contact](#contact)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Project Overview
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The goal of this project was to develop a full-stack application that integrates with an authentication service (Auth0), manages state using Redux Toolkit and React Context, and performs CRUD operations on products using the Fake Store API. The application has been styled with Bootstrap and deployed on Vercel.
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Authentication**: Implemented using Auth0, with a login page that redirects to a registration form upon successful login.
+- **Registration**: A registration page that redirects to the product management dashboard upon completion.
+- **Dashboard**: A dashboard with a Product List Page and Product Details Page, featuring:
+  - **Product List Page**: Displays a list of products fetched from the Fake Store API using React Table.
+  - **Product Details Page**: Provides a detailed view of the selected product with an option to return to the product list.
+- **State Management**: Global state management using Redux Toolkit and user authentication state management using React Context.
+- **Routing**: Smooth navigation between pages using React Router DOM.
+- **Styling**: Responsive design and user-friendly interface using Bootstrap.
 
-### `npm run build`
+## Technologies Used
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **React.js**: JavaScript library for building user interfaces.
+- **Redux Toolkit**: For managing global state.
+- **React Context**: For managing user authentication state.
+- **Auth0**: Authentication service.
+- **Fake Store API**: API for product CRUD operations.
+- **Axios**: Promise-based HTTP client for API calls.
+- **React Table**: For displaying product lists in a tabular format.
+- **React Router DOM**: For client-side routing.
+- **Bootstrap**: For styling the application.
+- **Vercel**: For deployment.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Setup and Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/omer0697/ilabour-task.git
+   ```
+2. **Navigate to the project directory**:
+   ```bash
+   cd ilabour-task
+   ```
+3. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+4. **Configure Auth0**:
+   - Set up an Auth0 application and replace the placeholders in the `.env` file with your Auth0 credentials.
 
-### `npm run eject`
+5. **Run the development server**:
+   ```bash
+   npm start
+   ```
+   The application will be available at `http://localhost:3000`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Deployment
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The application is deployed on Vercel. You can access the live version [here](https://your-vercel-link.vercel.app).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+To deploy your own version:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Sign up or log in to Vercel**: [Vercel](https://vercel.com/).
+2. **Connect your GitHub repository**.
+3. **Deploy the application** directly from your repository.
 
-## Learn More
+## Folder Structure
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```plaintext
+.
+├── public
+├── src
+│   ├── components
+│   ├── pages
+│   ├── store
+│   ├── App.js
+│   ├── index.js
+├── .env
+├── package.json
+└── README.md
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **`components/`**: Reusable components used throughout the application.
+- **`pages/`**: Individual pages such as Login, Registration, Product List, and Product Details.
+- **`store/`**: Redux Toolkit slices for managing global state.
+- **`.env`**: Environment variables for Auth0 configuration.
+- **`App.js`**: Main application component with routing.
+- **`index.js`**: Entry point of the application.
 
-### Code Splitting
+## Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- This project does not include a backend. The registration form data is not saved.
+- All API calls are handled using Axios and are integrated with the Fake Store API.
 
-### Analyzing the Bundle Size
+## Contact
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you have any questions or suggestions, feel free to reach out to me at [omer_yurtseven1997@outlook.com](mailto:omer_yurtseven1997@outlook.com).
