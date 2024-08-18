@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form, Alert } from 'react-bootstrap';
+import { Modal, Button, Form, Spinner, Alert } from 'react-bootstrap';
 
 function UpdateProductModal({ showModal, handleModalClose, onSaveProduct, product, isEditing }) {
   const [newProduct, setNewProduct] = useState({
@@ -10,6 +10,8 @@ function UpdateProductModal({ showModal, handleModalClose, onSaveProduct, produc
     image: '',
   });
   const [validationErrors, setValidationErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [showSuccess, setShowSuccess] = useState(false); // Success state
 
   useEffect(() => {
     if (isEditing && product) {
@@ -46,13 +48,24 @@ function UpdateProductModal({ showModal, handleModalClose, onSaveProduct, produc
     });
   };
 
-  const handleSaveProduct = () => {
+  const handleSaveProduct = async () => {
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
       return;
     }
-    onSaveProduct(newProduct, isEditing);
+
+    setIsLoading(true); // Start loading
+    try {
+      await onSaveProduct(newProduct, isEditing);
+      setShowSuccess(true); // Show success message
+      setTimeout(() => setShowSuccess(false), 3000); // Hide success message after 3 seconds
+      handleModalClose(); // Close modal after successful save/update
+    } catch (error) {
+      console.error("Failed to save the product:", error);
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
   };
 
   return (
@@ -61,6 +74,11 @@ function UpdateProductModal({ showModal, handleModalClose, onSaveProduct, produc
         <Modal.Title>{isEditing ? 'Edit Product' : 'Add New Product'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {showSuccess && (
+          <Alert variant="success">
+            {isEditing ? 'Product updated successfully!' : 'New product added successfully!'}
+          </Alert>
+        )}
         <Form>
           <Form.Group controlId="formTitle">
             <Form.Label>Title</Form.Label>
@@ -130,11 +148,18 @@ function UpdateProductModal({ showModal, handleModalClose, onSaveProduct, produc
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleModalClose}>
+        <Button variant="secondary" onClick={handleModalClose} disabled={isLoading}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleSaveProduct}>
-          {isEditing ? 'Update Product' : 'Save Product'}
+        <Button variant="primary" onClick={handleSaveProduct} disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+              {isEditing ? ' Updating...' : ' Saving...'}
+            </>
+          ) : (
+            isEditing ? 'Update Product' : 'Save Product'
+          )}
         </Button>
       </Modal.Footer>
     </Modal>
