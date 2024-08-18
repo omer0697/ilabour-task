@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setProducts, setLoading, setError } from '../features/products/productsSlice';
 import axiosInstance from '../api/axiosInstance';
 import DataTable from '../Components/DataTable';
-import { FaTrash } from 'react-icons/fa';
+import { FaTrash, FaPen } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
 
@@ -20,6 +20,7 @@ function Dashboard() {
     category: '',
     image: '',
   });
+  const [editProduct, setEditProduct] = useState(null); // State for the product being edited
   const [showAlert, setShowAlert] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
 
@@ -53,6 +54,20 @@ function Dashboard() {
   };
 
   const handleAddProductClick = () => {
+    setNewProduct({
+      title: '',
+      price: '',
+      description: '',
+      category: '',
+      image: '',
+    });
+    setEditProduct(null);
+    setShowModal(true);
+  };
+
+  const handleEditClick = (product) => {
+    setNewProduct(product);
+    setEditProduct(product);
     setShowModal(true);
   };
 
@@ -79,8 +94,16 @@ function Dashboard() {
     }
 
     try {
-      const response = await axiosInstance.post('/products', newProduct);
-      dispatch(setProducts([...data, response.data]));
+      if (editProduct) {
+        // Edit product
+        const response = await axiosInstance.put(`/products/${editProduct.id}`, newProduct);
+        dispatch(setProducts(data.map((product) => (product.id === editProduct.id ? response.data : product))));
+      } else {
+        // Add new product
+        const response = await axiosInstance.post('/products', newProduct);
+        dispatch(setProducts([...data, response.data]));
+      }
+
       setShowModal(false);
       setShowAlert(true);
       setTimeout(() => setShowAlert(false), 3000); // Hide alert after 3 seconds
@@ -118,12 +141,18 @@ function Dashboard() {
     { Header: 'Description', accessor: 'description' },
     { Header: 'Price', accessor: 'price' },
     {
-      Header: 'Delete',
+      Header: 'Actions',
       Cell: ({ row }) => (
-        <FaTrash
-          style={{ cursor: 'pointer', color: 'red' }}
-          onClick={() => handleDeleteClick(row.original.id)}
-        />
+        <>
+          <FaPen
+            style={{ cursor: 'pointer', color: 'blue', marginRight: '10px' }}
+            onClick={() => handleEditClick(row.original)}
+          />
+          <FaTrash
+            style={{ cursor: 'pointer', color: 'red' }}
+            onClick={() => handleDeleteClick(row.original.id)}
+          />
+        </>
       ),
     },
   ];
@@ -132,15 +161,15 @@ function Dashboard() {
     <div className='container'>
       {showAlert && (
         <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
-          New product added successfully!
+          {editProduct ? 'Product edited successfully!' : 'New product added successfully!'}
         </Alert>
       )}
-      
+
       <DataTable data={data} columns={columns} loading={loading} onAddProductClick={handleAddProductClick} />
 
       <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Product</Modal.Title>
+          <Modal.Title>{editProduct ? 'Edit Product' : 'Add New Product'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -216,7 +245,7 @@ function Dashboard() {
             Close
           </Button>
           <Button variant="primary" onClick={handleSaveProduct}>
-            Save Product
+            {editProduct ? 'Update Product' : 'Save Product'}
           </Button>
         </Modal.Footer>
       </Modal>
