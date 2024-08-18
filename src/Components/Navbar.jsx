@@ -6,7 +6,7 @@ function AppNavbar() {
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
   
   // Retrieve the user's name from localStorage
-  const userName = localStorage.getItem('registrationData')?.name;
+  const userName = localStorage.getItem('registrationData') && JSON.parse(localStorage.getItem('registrationData')).name;
 
   return (
     <Navbar expand="lg" style={{ backgroundColor: '#ffffff', padding: '10px 20px' }} className="shadow-sm">
