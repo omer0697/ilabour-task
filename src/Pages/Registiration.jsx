@@ -42,7 +42,7 @@ const Registration = () => {
   const handleCompleteRegistration = () => {
     // Save form data to localStorage
     localStorage.setItem('registrationData', JSON.stringify(formData));
-    navigate('/');
+    window.location.reload();
   };
 
   return (
