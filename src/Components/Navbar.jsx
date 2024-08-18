@@ -4,6 +4,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 function AppNavbar() {
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+  
+  // Retrieve the user's name from localStorage
+  const userName = localStorage.getItem('registrationData')?.name;
 
   return (
     <Navbar expand="lg" style={{ backgroundColor: '#ffffff', padding: '10px 20px' }} className="shadow-sm">
@@ -14,17 +17,24 @@ function AppNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           {isAuthenticated ? (
-            <Button
-              variant="outline-primary"
-              className="px-4 py-2"
-              style={{ borderRadius: '30px' }}
-              onClick={() => {
-                localStorage.removeItem('registrationData');
-                logout({ returnTo: window.location.origin });
-              }}
-            >
-              Log Out
-            </Button>
+            <>
+              {userName && (
+                <span style={{ marginRight: '15px', color: '#007bff', fontWeight: '500', alignSelf: 'center' }}>
+                  Welcome, {userName}
+                </span>
+              )}
+              <Button
+                variant="outline-primary"
+                className="px-4 py-2"
+                style={{ borderRadius: '30px' }}
+                onClick={() => {
+                  localStorage.removeItem('registrationData');
+                  logout({ returnTo: window.location.origin });
+                }}
+              >
+                Log Out
+              </Button>
+            </>
           ) : (
             <Button
               variant="primary"
