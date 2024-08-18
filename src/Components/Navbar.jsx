@@ -9,7 +9,7 @@ function AppNavbar() {
   const userName = localStorage.getItem('registrationData') && JSON.parse(localStorage.getItem('registrationData')).name;
 
   return (
-    <Navbar expand="lg" style={{ backgroundColor: '#ffffff', padding: '10px 20px' }} className="shadow-sm">
+    <Navbar key={userName} expand="lg" style={{ backgroundColor: '#ffffff', padding: '10px 20px' }} className="shadow-sm">
       <Container fluid>
         <Navbar.Brand href="/" className="font-weight-bold" style={{ color: '#007bff', fontSize: '1.75rem' }}>
           MyApp
